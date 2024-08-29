@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class MessageContainer(ft.Container):
     def __init__(self, username, message):
         super().__init__()
@@ -20,29 +21,33 @@ class MessageContainer(ft.Container):
                     ft.PopupMenuButton(
                         items=[
                             ft.PopupMenuItem(
-                                    icon = ft.icons.STAR_BORDER,
-                                    text = "Add to favorites"
-                                )
-                            ]
-                        )
-                    ],
+                                icon=ft.icons.STAR_BORDER,
+                                text="Add to favorites"
+                            )
+                        ]
+                    )
+                ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
             ),
             ft.Text(self.message)
         ])
 
+
 def main(page: ft.Page):
     def on_recieve_post(message):
         page.add(message)
+
     def makenewpost(e):
         page.pubsub.send_all(MessageContainer(username=usernametextfield.value, message=posttextfield.value))
         page.close(newpostdialog)
+
     def chooseusername(e):
         if usernametextfield.value == "":
             usernametextfield.error_text = "Please enter your username"
             page.update()
         else:
             page.close(usernamemodal)
+
     def openpostdialog(e):
         posttextfield.value = ""
         page.open(newpostdialog)
@@ -77,5 +82,6 @@ def main(page: ft.Page):
     page.update()
 
     page.open(usernamemodal)
+
 
 ft.app(target=main, view=ft.AppView.WEB_BROWSER)
